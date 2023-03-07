@@ -9,16 +9,29 @@
 #define GiftCell_Margin 14
 #define GiftCell_Height 40
 
-#import "GiftStreamerView.h"
-#import "GiftStreamerPropManager.h"
-@interface GiftStreamerView()<GiftStreamerCellDelegate>
+@protocol GiftStreamerViewDelegate <KKVideoRoomViewProtocol>
+
+- (void)refreshGiftBubble:(CGFloat)upgradeProgress level:(int)level streamerPropInfo:(GiftStreamerPropInfo *)streamerPropInfo;
+- (UIView*)getGiftStreamerViewContainer;
+
+@optional
+- (BOOL)isShowLevelAndUpgradeAnimationView;
+
+@end
+
+@interface GiftStreamerView : UIView
 {
     __weak id<GiftStreamerViewDelegate> _delegate;
     NSMutableArray *_allGiftArray;
     NSMutableArray *_allGiftCellArray;
     BOOL _isLive;
 }
+- (id)initWithFrame:(CGRect)frame delegate:(id)delegate live:(BOOL)isLive;
+- (void)addGiftMessage:(NSDictionary* )giftMsgInfo icon:(NSString *)iconUrl;
+- (void)addWinType:(int)winType hitId:(NSString *)hitId;
 @end
+
+
 
 @implementation GiftStreamerView
 - (id)initWithFrame:(CGRect)frame delegate:(id)delegate live:(BOOL)isLive
